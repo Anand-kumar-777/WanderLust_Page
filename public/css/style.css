@@ -39,6 +39,10 @@ body {
     margin-right: 1rem;
 }
 
+.f-info-socials i:hover{
+    font-size: 1.5rem ;
+}
+
 .f-info {
     text-align: center;
 height: 8rem;
@@ -49,9 +53,11 @@ justify-content: center;
 align-items: space-evenly;
 }
 
+
 .f-info-links a{
     text-decoration: none;
     color: black;
+    padding: 0 8px;
 }
 .f-info-links a:hover{
     text-decoration: underline;
@@ -124,3 +130,22 @@ align-items: space-evenly;
     height: 400px;
     width: 80vh;
 }
+
+#map {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px; /* optional */
+}
+
+#map iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+

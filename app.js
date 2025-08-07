@@ -1,7 +1,6 @@
 if(process.env.NODE_ENV != "production"){
 require("dotenv").config();
 }
-console.log(process.env.SECRET);
 
 const express = require('express');
 const app = express();
@@ -18,6 +17,7 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 
+
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js")
@@ -26,6 +26,7 @@ const userRouter = require("./routes/user.js")
 const port = 8080;
 // const Mongo_URL = 'mongodb://127.0.0.1:27017/wanderlust'; // MongoDB Connection URL
 const dbUrl = process.env.ATLASDB_URL;
+
 
 
 // Middleware
@@ -91,13 +92,15 @@ app.use((req,res, next)=>{
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-app.use("/", userRouter)
+app.use("/", userRouter);
+
 
 //Error Handling Middleware
   app.use((err, req, res, next)=>{
     let { statusCode = 500, message = "Something went wrong!"} = err;
     res.status(statusCode).render("error.ejs", {message});
   });
+
 
   // MongoDB Connection
 async function main() {

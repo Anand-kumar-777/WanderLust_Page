@@ -21,6 +21,20 @@ router
      {failureRedirect : "/login", failureFlash : true}), userController.login);
 
 
+router
+  .route("/forgot-password")
+  .get(userController.renderForgotPasswordForm)
+  .post(wrapAsync(userController.sendResetPasswordEmail));
+
+router
+  .route("/reset-password/:token")
+  .get(userController.renderResetPasswordForm)
+  .post(wrapAsync(userController.resetPassword));
+
+
+
+
+
 router.get("/logout", userController.logout)
 
 module.exports = router;

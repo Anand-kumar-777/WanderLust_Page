@@ -9,12 +9,19 @@
         <input name="username" type="text" class="form-control"  id="username" required>
         </div>
 
+<div class="mb-3">
+  <label for="password" class="form-label">Password</label>
+  <input name="password" type="password" class="form-control" id="password" required>
+</div>
 
-        <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input name="password" type="password" class="form-control"  id="password" required>
-        </div>
-        <button class="btn btn-success">Login</button>
+
+ <!-- Buttons side by side -->
+  <div class="d-flex gap-3">
+    <button type="submit" class="btn btn-success">Login</button>
+    <a href="/forgot-password" class="btn btn-danger">Forgot Password?</a>
+  </div>
+
+
         </form>
     </div>
 </div>

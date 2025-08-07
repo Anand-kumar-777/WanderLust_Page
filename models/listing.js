@@ -38,10 +38,15 @@ const listingSchema = new Schema({
       required: true
     }
   },
-  category :{
-    type : String,
-    enum : ["Mountain", "Arctice", "Desert"]
-  },
+
+
+  // Ye code chat GPT ka hai
+  category: {
+    type: String,
+    enum: ["Trending", "Mountain", "Iconic Cities", "Temple", "Arctic", "Rooms", "Amazing Pools", "Camping", "Farms", "Domes", "Boats",],
+    required: true
+},
+
 });
 
 listingSchema.post("findOneAndDelete", async(listing)=>{

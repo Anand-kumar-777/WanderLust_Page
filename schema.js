@@ -7,7 +7,9 @@ const Joi = require('joi');
     location : Joi.string().required(),
     country : Joi.string().required(),
     price : Joi.number().required().min(0),
-    image : Joi.string().allow("", null)
+    image : Joi.string().allow("", null),
+    category: Joi.string().required(), // ✅ make sure this is there
+
   }).required()
 });
 

@@ -3,16 +3,47 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
-
+//Ye code ChatGPT se hai
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 
 module.exports.index = async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index", { allListings });
+    const { search, category } = req.query;
+    let filter = {};
+
+    if (category) {
+        filter.category = category;
+    }
+
+    if (search) {
+        const regex = new RegExp(escapeRegex(search), 'i');  // Case-insensitive regex
+        filter.$or = [
+            { title: regex },
+            { location: regex },
+            { country: regex }
+        ];
+    }
+
+    const allListings = await Listing.find(filter);
+    res.render("listings/index", { allListings, search, category });
 };
+
+// Baaki controller ke methods waise hi rahenge
+module.exports.renderNewForm = (req, res) => { /* ... */ };
+module.exports.showListing = async (req, res) => { /* ... */ };
+// etc.
+
+//Yaha tak code chat Gpt se hai iske bad nahi
+
+
+
 
 module.exports.renderNewForm = (req, res) => {
   res.render("listings/new");
 };
+
+
 
 module.exports.showListing = async (req, res) => {
     let { id } = req.params;
@@ -27,19 +58,14 @@ module.exports.showListing = async (req, res) => {
     res.render("listings/show", { listing });
   };
 
+
+
 module.exports.createListing = async (req, res, next) => {
  let response = await geocodingClient.forwardGeocode({
   query: req.body.listing.location,
   limit: 1,
 })
 .send();
-
-//  // ⚠️ SAFETY CHECK: If no results from Mapbox
-//   if (!response.body.features.length) {
-//     req.flash("error", "Invalid location. Please enter a valid place.");
-//     return res.redirect("/listings/new");
-//   }
-
   let url = req.file.path;
   let filename = req.file.filename;
   
@@ -55,6 +81,7 @@ module.exports.createListing = async (req, res, next) => {
   res.redirect(`/listings`);
 };
 
+
 module.exports.renderEditForm = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
@@ -68,6 +95,7 @@ module.exports.renderEditForm = async (req, res) => {
     res.render("listings/edit", { listing, originalImageUrl});
 };
 
+
 module.exports.updateListing = async (req, res) => {
   let {id } = req.params;
   let listing = await Listing.findByIdAndUpdate(id,{...req.body.listing});
@@ -80,6 +108,7 @@ module.exports.updateListing = async (req, res) => {
   req.flash("success", "Listing Updated");
   res.redirect(`/listings/${id}`);
 };
+
 
 module.exports.destroyListing = async (req, res) => {
   let { id } = req.params;
